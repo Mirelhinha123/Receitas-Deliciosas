@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Nova Receita</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Reset Básico & Fontes --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f6f4; /* Tom de fundo bege/creme claro */
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- Header --- */
+        header {
+            /* Ajuste para centralizar o conteúdo do header */
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem 0; /* Ajusta padding vertical, remove horizontal */
+            
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.10em;
+            font-weight: 540;
+            color: black;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; /* Espaçamento entre a imagem e o texto */
+        }
+        
+        /* --- NOVO --- */
+        /* Adicionado para controlar o tamanho da imagem do logo */
+        .logo img {
+            height: 32px; /* Defina a altura desejada para sua imagem */
+            width: auto;  /* Mantém a proporção */
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #EA580C;
+        }
+
+        .user-profile {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            
+        }
+
+        /* --- Container Principal & Formulário --- */
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0; /* Padding removido do container principal */
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #777;
+            margin-bottom: 2.5rem;
+        }
+
+        /* --- Grupos de Formulário --- */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #222;
+        }
+
+        label.required::after {
+            content: ' *';
+            color: #555; 
+        }
+
+        /* --- Inputs, Selects & Textareas --- */
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #fff; /* Mantém o fundo branco para os campos */
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #aaa;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #F97316; /* Laranja claro */
+            box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1.25em;
+            padding-right: 2.5rem;
+        }
+
+        .help-text {
+            font-size: 0.875rem;
+            color: #777;
+            margin-top: 0.5rem;
+        }
+
+        /* --- Upload de Arquivo Customizado --- */
+        .file-upload-wrapper {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            background-color: #fff; /* Adiciona fundo branco aqui */
+        }
+
+        .file-input-hidden {
+            display: none;
+        }
+
+        .file-upload-btn {
+            background-color: #F97316; /* Laranja claro */
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .file-name-display {
+            margin-left: 1rem;
+            font-size: 0.9rem;
+            color: #777;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* --- Notas & Botões --- */
+        .form-note {
+            font-size: 0.875rem;
+            color: #555;
+            margin-top: 1.5rem;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee; /* Linha de separação */
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-submit {
+            background-color: #EA580C; /* Laranja escuro */
+            color: #fff;
+        }
+
+        .btn-cancel {
+            background-color: #F97316; /* Laranja claro */
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Receitas Deliciosas">
+            Receitas Deliciosas
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="#">🏠 Início</a></li>
+                <li><a href="#" class="active">📖 Receitas</a></li>
+                <li><a href="#">❤️ Favoritos</a></li>
+                <li><a href="#">➕ Adicionar</a></li>
+            </ul>
+        </nav>
+        <div class="user-profile"></div>
+    </header>
+
+    <main class="container">
+        <h1>Enviar Nova Receita</h1>
+        <p class="subtitle">Compartilhe sua receita com a comunidade</p>
+
+        <form action="#" method="POST">
+            <div class="form-group">
+                <label for="recipe-name" class="required">Nome da Receita</label>
+                <input type="text" id="recipe-name" placeholder="Ex: Bolo de Chocolate" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="category" class="required">Categoria</label>
+                    <select id="category" required>
+                        <option value="almoço">Almoço</option>
+                        <option value="jantar">Jantar</option>
+                        <option value="sobremesa">Sobremesa</option>
+                        <option value="lanche">Lanche</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="prep-time" class="required">Tempo de Preparo (minutos)</label>
+                    <input type="number" id="prep-time" value="30" required>
+                </div>
+                <div class="form-group">
+                    <label for="difficulty" class="required">Dificuldade</label>
+                    <select id="difficulty" required>
+                        <option value="medio">Médio</option>
+                        <option value="facil">Fácil</option>
+                        <option value="dificil">Difícil</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ingredients" class="required">Ingredientes</label>
+                <textarea id="ingredients" placeholder="Liste os ingredientes, um por linha&#10;Ex:&#10;500g de Farinha&#10;3 ovos&#10;200ml de leite" required></textarea>
+                <p class="help-text">Digite cada ingrediente em uma linha separada</p>
+            </div>
+
+            <div class="form-group">
+                <label for="instructions" class="required">Modo de Preparo</label>
+                <textarea id="instructions" placeholder="Descreva o passo a passo, um por linha&#10;Ex:&#10;Pré-aqueça o forno a 180°C&#10;Misture os ingredientes secos" required></textarea>
+                <p class="help-text">Digite cada passo em uma linha separada</p>
+            </div>
+
+            <div class="form-group">
+                <label for="tips">Dicas Adicionais (Opcional)</label>
+                <textarea id="tips" placeholder="Compartilhe dicas úteis, uma por linha&#10;Ex:&#10;Use ingredientes em temperatura ambiente"></textarea>
+                <p class="help-text">Digite cada dica em uma linha separada</p>
+            </div>
+
+            <div class="form-group">
+                <label for="file-upload">Upload de Imagem (Opcional)</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="file-upload" class="file-input-hidden">
+                    <label for="file-upload" class="file-upload-btn">Escolher ficheiro</label>
+                    <span class="file-name-display">Nenhum ficheiro selecionado</span>
+                </div>
+                <p class="help-text">Selecione um arquivo de imagem do seu computador (PNG/JPG).</p>
+            </div>
+
+            <div class="form-group">
+                <label for="image-url">Ou URL da Imagem (Opcional)</label>
+                <input type="text" id="image-url" placeholder="https://exemplo.com/imagem.jpg">
+                <p class="help-text">Cole a URL de uma imagem da sua receita (ou use o upload acima).</p>
+            </div>
+
+            <p class="form-note">* Campos obrigatórios</p>
+
+            <div class="form-buttons">
+                <button type="button" class="btn btn-cancel">Cancelar</button>
+                <button type="submit" class="btn btn-submit">Enviar Receita</button>
+            </div>
+
+        </form>
+    </main>
+
+</body>
+</html>
